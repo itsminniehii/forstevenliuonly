@@ -52,26 +52,27 @@
     <p>歡迎回來</p>
     <input type="email" id="email" placeholder="Email" />
     <input type="password" id="password" placeholder="密碼" />
-    <button onclick="login()">進入貓世界</button>
+    <button id="login-btn">進入貓世界</button>
     <p class="error" id="error-msg"></p>
   </div>
 
   <script>
-    const supabase = window.supabase.createClient(
+    const { createClient } = window.supabase
+    const client = createClient(
       'https://dnvjlchlvdshqhiraume.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRudmpsY2hsdmRzaHFoaXJhdW1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMzgyNjQsImV4cCI6MjA5MDgxNDI2NH0.CK4Ro7kCr7nktMAhIKcSmch2YYsjETaWwefxcswF7ew'
     )
 
-    async function login() {
+    document.getElementById('login-btn').addEventListener('click', async () => {
       const email = document.getElementById('email').value
       const password = document.getElementById('password').value
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      const { error } = await client.auth.signInWithPassword({ email, password })
       if (error) {
         document.getElementById('error-msg').textContent = '帳號或密碼錯誤，請再試一次'
       } else {
         window.location.href = 'home.html'
       }
-    }
+    })
   </script>
 </body>
 </html>
